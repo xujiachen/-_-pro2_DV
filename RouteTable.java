@@ -13,7 +13,7 @@ class RouteTable {
     public RouteTable() {
         RouteList = new LinkedList<>();
         RouteList.add(new RouteEntry(
-            new IP("11.11.11.11"), new IP("22.22.33.44"), new IP("33.22.33.44"), 4));
+         new IP("22.22.33.44"), new IP("33.22.33.44"), 4));
     }
 
     public void AddRoute(RouteEntry entry) {
@@ -22,8 +22,8 @@ class RouteTable {
 
     // print in the window
     public void show() {
-        System.out.println("Source         |Destination    |Next Hop       |Cost");
-        System.out.println("---------------|---------------|---------------|----");
+        System.out.println("Destination    |Next Hop       |Cost");
+        System.out.println("---------------|---------------|----");
         for (int i = 0; i < RouteList.size(); i++) {
             System.out.println(RouteList.get(i).show());
         }

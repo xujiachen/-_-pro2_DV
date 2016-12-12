@@ -4,20 +4,14 @@
  */
 
 class RouteEntry {
-    private IP SourceIP_ = null;
     private IP DestIP_ = null;
     private IP NextHopIP_ = null;
     private int Cost_ = 1;
 
-    public RouteEntry(IP SourceIP, IP DestIP, IP NextHopIP, int Cost) {
-        SourceIP_ = SourceIP;
+    public RouteEntry(IP DestIP, IP NextHopIP, int Cost) {
         DestIP_ = DestIP;
         NextHopIP_ = NextHopIP;
         Cost_ = Cost;
-    }
-
-    public IP getSourceIP() {
-        return SourceIP_;
     }
 
     public IP getDestIP() {
@@ -41,13 +35,10 @@ class RouteEntry {
     }
 
     public String toString() {
-        return "SourceIP: "+ SourceIP_.toString() + "  DestIP: " + DestIP_.toString() + "  NextHopIP:" + NextHopIP_.toString() + "  Cost: " + Cost_;
+        return "DestIP: " + DestIP_.toString() + "  NextHopIP:" + NextHopIP_.toString() + "  Cost: " + Cost_;
     }
 
     public String show() {
-        if (Cost_ < 10)
-            return SourceIP_.toString() + "|" + DestIP_.toString() + "|" + NextHopIP_.toString() + "|   " + Cost_;
-        else
-            return SourceIP_.toString() + "|" + DestIP_.toString() + "|" + NextHopIP_.toString() + "|  " + Cost_;
+        return DestIP_.toString() + "|" + NextHopIP_.toString() + "|" + Cost_;
     }
 }
