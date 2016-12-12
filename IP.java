@@ -20,6 +20,10 @@ class IP {
         ip3 = Integer.valueOf(strArray[3]);
     }
 
+    public boolean equals(IP ip) {
+        return this.toString().equals(ip.toString());
+    }
+
     public String toString() {
         return Integer.toString(ip0) + ":"
                 + Integer.toString(ip1) + ":"

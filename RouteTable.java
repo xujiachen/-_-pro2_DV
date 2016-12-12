@@ -14,6 +14,10 @@ class RouteTable {
         RouteList = new LinkedList<>();
     }
 
+    public RouteTable(List<RouteEntry> routeEntries) {
+        RouteList = routeEntries;
+    }
+
     public void AddRoute(RouteEntry entry) {
         // TODO add a new Route according the DV
         RouteList.add(entry);
@@ -26,5 +30,10 @@ class RouteTable {
         for (RouteEntry entry : RouteList) {
             System.out.println(entry.show());
         }
+    }
+
+    @Override
+    public String toString() {
+        return RouteList.toString();
     }
 }

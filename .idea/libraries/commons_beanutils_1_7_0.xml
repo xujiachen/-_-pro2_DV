@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="commons-beanutils-1.7.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/commons-beanutils-1.7.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/commons-collections-3.2.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/commons-collections.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/commons-httpclient-3.0.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/commons-lang-2.4.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/commons-logging-1.0.4.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/ezmorph-1.0.3.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/json-lib-2.2.3-jdk15.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/jsonlib/json-lib-2.3-jdk13.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
