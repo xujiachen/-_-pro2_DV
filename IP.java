@@ -18,10 +18,16 @@ class IP {
         ip1 = Integer.valueOf(strArray[1]);
         ip2 = Integer.valueOf(strArray[2]);
         ip3 = Integer.valueOf(strArray[3]);
-        System.out.println(ipStr);
     }
 
     public String toString() {
+        return Integer.toString(ip0) + ":"
+                + Integer.toString(ip1) + ":"
+                + Integer.toString(ip2) + ":"
+                + Integer.toString(ip3);
+    }
+
+    public String show() {
         int count = 3;
 
         count++;
@@ -53,8 +59,8 @@ class IP {
             ipStr += " ";
 
         return Integer.toString(ip0) + ":"
-             + Integer.toString(ip1) + ":"
-             + Integer.toString(ip2) + ":"
-             + Integer.toString(ip3) + ipStr;
+                + Integer.toString(ip1) + ":"
+                + Integer.toString(ip2) + ":"
+                + Integer.toString(ip3) + ipStr;
     }
 }
