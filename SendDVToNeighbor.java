@@ -1,25 +1,17 @@
 import java.io.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
 
 public class SendDVToNeighbor extends Thread {
-    private List<IP> NeighborList;
-
-    public SendDVToNeighbor(List<IP> IPList) {
-        super();
-        NeighborList = new LinkedList<>();
-        for (IP ip : IPList) {
-            NeighborList.add(ip);
-        }
-    }
-
     @Override
     public void run() {
-        System.out.print("RUN");
-        for (IP neighborIP : NeighborList) {
+        System.out.println("RUN");
+        for (IP neighborIP : Router.getNeighbors()) {
             try {
-                Socket socket = new Socket(neighborIP.toString(), Router.DVPORT);
+                Socket socket = new Socket();
+                socket.bind(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), 7000));
+                socket.connect(new InetSocketAddress(neighborIP.toString(), 8000));
 
                 OutputStream os = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(os);
@@ -32,9 +24,14 @@ public class SendDVToNeighbor extends Thread {
                 InputStream is = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
                 String line;
+                StringBuilder builder = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
-                    MyConsole.log("Neighbor " + neighborIP.toString() + " received.");
+                    builder.append(line);
                 }
+
+                MyConsole.log("Neighbor " + neighborIP.toString() + " received.");
+                MyConsole.log("Neighbor response: " + builder.toString());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

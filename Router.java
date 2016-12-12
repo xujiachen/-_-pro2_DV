@@ -9,7 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Router {
-    private Router() {}
+    private Router() {
+    }
 
     static int DVPORT = 8000;
     static int MESSAGEPORT = 8001;
@@ -25,7 +26,7 @@ public class Router {
             Neighbors = new LinkedList<>();
             table = new RouteTable();
 
-            System.out.println("Local IP is "+LocalIP.toString());
+            System.out.println("Local IP is " + LocalIP.toString());
         } catch (UnknownHostException e) {
             e.printStackTrace();
             return false;
@@ -34,6 +35,11 @@ public class Router {
     }
 
     static void addNeighbor(IP neighborIP) {
+        for (IP ip : Neighbors) {
+            if (ip.equals(neighborIP))
+                return;
+        }
+
         Neighbors.add(neighborIP);
         table.AddRoute(new RouteEntry(neighborIP, neighborIP, 1));
     }

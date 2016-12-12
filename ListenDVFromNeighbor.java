@@ -1,3 +1,5 @@
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +14,8 @@ public class ListenDVFromNeighbor extends Thread {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
                 Socket socket = serverSocket.accept();
+
+                MyConsole.log(socket.getRemoteSocketAddress().toString());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String line;
                 StringBuilder builder = new StringBuilder();
@@ -19,9 +23,11 @@ public class ListenDVFromNeighbor extends Thread {
                     builder.append(line);
                 }
 
-                MyConsole.log(builder.toString());
-                // TODO 处理收到的msg
+                MyConsole.log("Receive: " + builder.toString());
+                Router.getTable().addRoutes(new RouteTable(builder.toString()));
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

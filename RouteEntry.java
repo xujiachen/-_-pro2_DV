@@ -3,8 +3,9 @@
  * Used to save a route
  */
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 class RouteEntry {
     private IP DestinationIP_ = null;
@@ -17,7 +18,7 @@ class RouteEntry {
         Cost_ = Cost;
     }
 
-    public RouteEntry(JSONObject jsonObject) {
+    public RouteEntry(JSONObject jsonObject) throws JSONException {
         DestinationIP_ = new IP((String) jsonObject.get("DestinationIP"));
         NextHopIP_ = new IP((String) jsonObject.get("NextHopIP"));
         Cost_ = Integer.valueOf((String) jsonObject.get("Cost"));
@@ -44,11 +45,16 @@ class RouteEntry {
     }
 
     public String toString() {
-        JSONObject obj = new JSONObject();
-        obj.put("DestinationIP", DestinationIP_.toString());
-        obj.put("NextHopIP", NextHopIP_.toString());
-        obj.put("Cost", Cost_);
-        return obj.toString();
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("DestinationIP", DestinationIP_.toString());
+            obj.put("NextHopIP", NextHopIP_.toString());
+            obj.put("Cost", Cost_);
+            return obj.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String show() {

@@ -7,8 +7,8 @@ class Main {
 
         MyConsole.RunForAddNeighbor();
         Router.getTable().show();
-        MyConsole.RunAfterNeighbor();
-        //new SendDVToNeighbor().start();
-        //new ListenDVFromNeighbor(myIP).start();
+        //MyConsole.RunAfterNeighbor();
+        new SendDVToNeighbor().start();
+        new ListenDVFromNeighbor().start();
     }
 }
