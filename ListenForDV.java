@@ -11,7 +11,7 @@ public class ListenForDV extends Thread {
     public void run() {
         MyConsole.log("Begin to listen neighbors.");
         try {
-            ServerSocket serverSocket = new ServerSocket(Router.MESSAGEport);
+            ServerSocket serverSocket = new ServerSocket(Router.DVport);
             while (true) {
                 Socket socket = serverSocket.accept();
 
@@ -25,7 +25,6 @@ public class ListenForDV extends Thread {
 
                 MyConsole.log("Receive: " + builder.toString());
                 Router.getTable().addRoutes(new RouteTable(builder.toString()));
-                new SendDVToNeighbor();
             }
         } catch (JSONException e) {
             e.printStackTrace();

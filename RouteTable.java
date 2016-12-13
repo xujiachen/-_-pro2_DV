@@ -57,6 +57,7 @@ class RouteTable {
     }
 
     public void addRoute(RouteEntry entry) {
+        Router.isTableRefresh = true;
         // TODO add a new Route according the DV
         RouteList.add(entry);
     }

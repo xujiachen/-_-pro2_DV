@@ -14,6 +14,7 @@ public class Router {
 
     static int DVport = 8000;
     static int MESSAGEport = 8001;
+    static boolean isTableRefresh = false;
 
     static private IP LocalIP;
     static private RouteTable table;
