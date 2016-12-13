@@ -6,7 +6,7 @@ class Main {
 
         MyConsole.RunForAddNeighbor();
         Router.getTable().show();
-        new ListenDVFromNeighbor().start();
+        new ListenForDV().start();
         new ListenForMessage().start();
         MyConsole.RunAfterNeighbor();
     }

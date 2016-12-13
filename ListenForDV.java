@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ListenDVFromNeighbor extends Thread {
+public class ListenForDV extends Thread {
     @Override
     public void run() {
         MyConsole.log("Begin to listen neighbors.");
@@ -25,6 +25,7 @@ public class ListenDVFromNeighbor extends Thread {
 
                 MyConsole.log("Receive: " + builder.toString());
                 Router.getTable().addRoutes(new RouteTable(builder.toString()));
+                new SendDVToNeighbor();
             }
         } catch (JSONException e) {
             e.printStackTrace();
