@@ -11,7 +11,7 @@ public class ListenDVFromNeighbor extends Thread {
     public void run() {
         MyConsole.log("Begin to listen neighbors.");
         try {
-            ServerSocket serverSocket = new ServerSocket(8000);
+            ServerSocket serverSocket = new ServerSocket(Router.MESSAGEport);
             while (true) {
                 Socket socket = serverSocket.accept();
 

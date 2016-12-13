@@ -18,10 +18,6 @@ class RouteTable {
         RouteList = new LinkedList<>();
     }
 
-    public RouteTable(List<RouteEntry> routeEntries) {
-        RouteList = routeEntries;
-    }
-
     public RouteTable(JSONObject jsonObj) {
         try {
             JSONArray jsonArray = jsonObj.getJSONArray("RouteList");
@@ -38,23 +34,20 @@ class RouteTable {
         new RouteTable(new JSONObject(jsonString));
     }
 
-    public JSONObject toJSONObject() {
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("RouteList", RouteList);
-            return jsonObject;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public int size() {
         return RouteList.size();
     }
 
     public RouteEntry get(int index) {
         return RouteList.get(index);
+    }
+
+    public IP getNextHop(IP destination) {
+        for (RouteEntry entry : RouteList) {
+            if (destination.equals(entry.getDestinationIP()))
+                return entry.getNextHopIP();
+        }
+        return null;
     }
 
     public void addRoutes(RouteTable table) {
@@ -68,6 +61,23 @@ class RouteTable {
         RouteList.add(entry);
     }
 
+    public JSONObject toJSONObject() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("RouteList", RouteList);
+            return jsonObject;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // to a string as the format of json
+    @Override
+    public String toString() {
+        return toJSONObject().toString();
+    }
+
     // print in the window
     public void show() {
         System.out.println("Destination    |Next Hop       |Cost");
@@ -75,10 +85,5 @@ class RouteTable {
         for (RouteEntry entry : RouteList) {
             System.out.println(entry.show());
         }
-    }
-
-    @Override
-    public String toString() {
-        return RouteList.toString();
     }
 }

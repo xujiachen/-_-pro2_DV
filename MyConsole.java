@@ -50,7 +50,12 @@ public class MyConsole {
                     Matcher IPMatcher = IPPattern.matcher(input);
                     if (IPMatcher.find()) {
                         IP destinationIP = new IP(IPMatcher.group(0));
-                        // TODO send a message to destinationIP
+
+                        Message message = new Message();
+                        message.setSource(Router.getLocalIP());
+                        message.setDestination(destinationIP);
+                        message.addPoint(Router.getLocalIP());
+                        new ForwardMessage(message).start();
                     }
                 } else if (Pattern.matches("show route table *$", input)) {
                     Router.getTable().show();

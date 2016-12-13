@@ -3,7 +3,6 @@
  * Used to save a route
  */
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +23,7 @@ class RouteEntry {
         Cost_ = Integer.valueOf((String) jsonObject.get("Cost"));
     }
 
-    public IP getDestIP() {
+    public IP getDestinationIP() {
         return DestinationIP_;
     }
 
@@ -44,6 +43,8 @@ class RouteEntry {
         Cost_ = Cost;
     }
 
+    // to string as the format of json
+    @Override
     public String toString() {
         try {
             JSONObject obj = new JSONObject();

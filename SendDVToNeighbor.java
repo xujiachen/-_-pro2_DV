@@ -10,8 +10,8 @@ public class SendDVToNeighbor extends Thread {
         for (IP neighborIP : Router.getNeighbors()) {
             try {
                 Socket socket = new Socket();
-                socket.bind(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), 7000));
-                socket.connect(new InetSocketAddress(neighborIP.toString(), 8000));
+                socket.bind(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), Router.DVport));
+                socket.connect(new InetSocketAddress(neighborIP.toString(), Router.DVport));
 
                 OutputStream os = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(os);

@@ -12,8 +12,8 @@ public class Router {
     private Router() {
     }
 
-    static int DVPORT = 8000;
-    static int MESSAGEPORT = 8001;
+    static int DVport = 8000;
+    static int MESSAGEport = 8001;
 
     static private IP LocalIP;
     static private RouteTable table;
@@ -41,7 +41,7 @@ public class Router {
         }
 
         Neighbors.add(neighborIP);
-        table.AddRoute(new RouteEntry(neighborIP, neighborIP, 1));
+        table.addRoute(new RouteEntry(neighborIP, neighborIP, 1));
     }
 
     static List<IP> getNeighbors() {
