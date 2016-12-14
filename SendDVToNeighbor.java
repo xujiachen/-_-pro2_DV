@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -12,7 +13,7 @@ public class SendDVToNeighbor extends Thread {
     public SendDVToNeighbor(IP neighborIP) throws IOException {
         neighborIP_ = neighborIP;
         socket_ = new Socket();
-        socket_.connect(new InetSocketAddress(neighborIP.toString(), Router.Port_ListenDV));
+        socket_.connect(new InetSocketAddress(Inet4Address.getByAddress(neighborIP.toString().getBytes()), Router.Port_ListenDV));
         MyConsole.log("Connect with the neighbor (" + neighborIP.toString() + ").");
         MyConsole.log(neighborIP.toString() + "  port:" + socket_.getLocalPort());
         MyConsole.log("Now you can send DV route table to this neighbor.");
