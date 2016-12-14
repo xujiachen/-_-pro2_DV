@@ -14,6 +14,7 @@ public class SendDVToNeighbor extends Thread {
     public SendDVToNeighbor(IP neighborIP) throws IOException {
         neighborIP_ = neighborIP;
         socket_ = new Socket();
+        socket_.setKeepAlive(true);
         socket_.connect(new InetSocketAddress(Inet4Address.getByAddress(neighborIP.getBytes()), Router.Port_ListenDV));
         MyConsole.log("Connect with the neighbor (" + neighborIP.toString() + ").");
         MyConsole.log(neighborIP.toString() + "  port:" + socket_.getLocalPort());
@@ -23,17 +24,24 @@ public class SendDVToNeighbor extends Thread {
     @Override
     public void run() {
         try {
-            System.out.print("Run 3!");
             while (Router.isRunning) {
                 Thread.sleep(5000);
 
-                if (!socket_.isConnected())
-                    MyConsole.log("与"+neighborIP_.toString()+"的DV主动连接被断开");
+                MyConsole.log("Running");
+
+                if (!socket_.isConnected()) {
+                    MyConsole.log("The connection with " + neighborIP_.toString() + " for send DV is closed");
+                    break;
+                }
 
                 if (!Router.isTableRefresh) {
+                    MyConsole.log("Sending");
+
                     PrintWriter writer = new PrintWriter(socket_.getOutputStream());
                     writer.write(Router.getTable().toString());
+                    writer.write("\r\n");
                     writer.flush();
+                    socket_.getOutputStream().flush();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(socket_.getInputStream()));
                     StringBuilder builder = new StringBuilder();
@@ -44,7 +52,6 @@ public class SendDVToNeighbor extends Thread {
                     MyConsole.log(neighborIP_.toString() + " response:" + builder.toString());
                 }
             }
-            System.out.print("Exit 3!");
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {

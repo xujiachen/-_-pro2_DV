@@ -100,6 +100,6 @@ public class MyConsole {
     }
 
     static void log(String str) {
-        System.out.println("\n"+Router.getLocalIP().toString() + "> " + str);
+        System.out.println("\n"+Router.getLocalIP().toString() + "> " + str + "\n");
     }
 }

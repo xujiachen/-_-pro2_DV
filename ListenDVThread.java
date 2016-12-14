@@ -7,7 +7,6 @@ import java.net.Socket;
 public class ListenDVThread extends Thread {
     @Override
     public void run() {
-        System.out.print("Run 1!");
         MyConsole.log("Begin to listen neighbors.");
         ServerSocket serverSocket = null;
         try {
@@ -16,7 +15,6 @@ public class ListenDVThread extends Thread {
                 Socket socket = serverSocket.accept();
                 new DVServerThread(socket).start();
             }
-            System.out.print("Exit 1!");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -38,7 +36,6 @@ public class ListenDVThread extends Thread {
 
         @Override
         public void run() {
-            System.out.print("Run 2!");
             try {
                 MyConsole.log("Receive a hello from " + socket.getRemoteSocketAddress().toString());
                 while (Router.isRunning) {
@@ -54,10 +51,9 @@ public class ListenDVThread extends Thread {
                     Router.getTable().addRoutesFromNeighbor(new RouteTable(builder.toString()), new IP(socket.getRemoteSocketAddress().toString()));
 
                     PrintWriter writer = new PrintWriter(socket.getOutputStream());
-                    writer.write(Router.getLocalIP().toString() + " Receive!");
+                    writer.write(Router.getLocalIP().toString() + " Receive!\r\n");
                     writer.flush();
                 }
-                System.out.print("Exit 2!");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
