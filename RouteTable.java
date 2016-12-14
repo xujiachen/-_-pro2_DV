@@ -50,15 +50,16 @@ class RouteTable {
         return null;
     }
 
-    public void addRoutes(RouteTable table) {
+    public void addRoutesFromNeighbor(RouteTable table, IP NeighborIP) {
+        Router.isTableRefresh = true;
         for (int i = 0; i < table.size(); i++) {
-            addRoute(table.get(i));
+            RouteEntry entry = table.get(i);
+            // TODO add route from neighbor with DV
         }
+        Router.isTableRefresh = false;
     }
 
     public void addRoute(RouteEntry entry) {
-        Router.isTableRefresh = true;
-        // TODO add a new Route according the DV
         RouteList.add(entry);
     }
 

@@ -18,8 +18,8 @@ public class ForwardMessage extends Thread {
             message_.addPoint(Router.getLocalIP());
             try {
                 Socket socket = new Socket();
-                socket.bind(new InetSocketAddress(Router.getLocalIP().toString(), Router.MESSAGEport));
-                socket.connect(new InetSocketAddress(nextHop.toString(), Router.MESSAGEport));
+                socket.bind(new InetSocketAddress(Router.getLocalIP().toString(), Router.Port_listenMessage));
+                socket.connect(new InetSocketAddress(nextHop.toString(), Router.Port_listenMessage));
 
                 OutputStream os = socket.getOutputStream();
                 PrintWriter writer = new PrintWriter(os);

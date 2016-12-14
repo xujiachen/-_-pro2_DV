@@ -14,10 +14,25 @@ class IP {
     // IP need to be as a.b.c.d
     public IP(String ipStr) {
         String[] strArray = ipStr.split("\\.");
-        ip0 = Integer.valueOf(strArray[0]);
-        ip1 = Integer.valueOf(strArray[1]);
-        ip2 = Integer.valueOf(strArray[2]);
-        ip3 = Integer.valueOf(strArray[3]);
+        if (strArray.length == 4) {
+            ip0 = Integer.valueOf(strArray[0]);
+            ip1 = Integer.valueOf(strArray[1]);
+            ip2 = Integer.valueOf(strArray[2]);
+            ip3 = Integer.valueOf(strArray[3]);
+        } else {
+            strArray = ipStr.split(":");
+            if (strArray.length == 4) {
+                ip0 = Integer.valueOf(strArray[0]);
+                ip1 = Integer.valueOf(strArray[1]);
+                ip2 = Integer.valueOf(strArray[2]);
+                ip3 = Integer.valueOf(strArray[3]);
+            } else {
+                ip0 = 0;
+                ip1 = 0;
+                ip2 = 0;
+                ip3 = 0;
+            }
+        }
     }
 
     public boolean equals(IP ip) {

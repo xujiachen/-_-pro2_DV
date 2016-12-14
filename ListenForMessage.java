@@ -9,7 +9,7 @@ public class ListenForMessage extends Thread {
     @Override
     public void run() {
         try {
-            ServerSocket serverSocket = new ServerSocket(Router.MESSAGEport);
+            ServerSocket serverSocket = new ServerSocket(Router.Port_listenMessage);
             while (true) {
                 Socket socket = serverSocket.accept();
 

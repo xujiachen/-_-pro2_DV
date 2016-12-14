@@ -2,13 +2,22 @@ import java.io.IOException;
 
 class Main {
     public static void main(String[] args) throws IOException {
-        Router.init();
+        if (Router.init()) {
+            // Listening DV is the first.
+            Router.BeginListenDV();
 
-        MyConsole.RunForAddNeighbor();
-        Router.getTable().show();
-        new SendDVToNeighbor().start();
-        new ListenForDV().start();
-        new ListenForMessage().start();
-        MyConsole.RunAfterNeighbor();
+            // Add the Neighbors. Need input from console
+            MyConsole.RunForAddNeighbor();
+            Router.getTable().show();
+
+            // Send DV route table to neighbors
+            Router.BeginSendDV();
+
+            // run as cmd, accept input and do something
+            MyConsole.RunAsCMD();
+
+        } else {
+            System.out.println("Initialization Failed. Router shutdown.");
+        }
     }
 }
