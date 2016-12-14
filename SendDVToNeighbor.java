@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class SendDVToNeighbor extends Thread {
     private IP neighborIP_;
@@ -13,7 +14,7 @@ public class SendDVToNeighbor extends Thread {
     public SendDVToNeighbor(IP neighborIP) throws IOException {
         neighborIP_ = neighborIP;
         socket_ = new Socket();
-        socket_.connect(new InetSocketAddress(Inet4Address.getByAddress(neighborIP.toString().getBytes()), Router.Port_ListenDV));
+        socket_.connect(new InetSocketAddress(Inet4Address.getByAddress(neighborIP.getBytes()), Router.Port_ListenDV));
         MyConsole.log("Connect with the neighbor (" + neighborIP.toString() + ").");
         MyConsole.log(neighborIP.toString() + "  port:" + socket_.getLocalPort());
         MyConsole.log("Now you can send DV route table to this neighbor.");
@@ -25,6 +26,9 @@ public class SendDVToNeighbor extends Thread {
             System.out.print("Run 3!");
             while (Router.isRunning) {
                 Thread.sleep(5000);
+
+                if (!socket_.isConnected())
+                    MyConsole.log("与"+neighborIP_.toString()+"的DV主动连接被断开");
 
                 if (!Router.isTableRefresh) {
                     PrintWriter writer = new PrintWriter(socket_.getOutputStream());
@@ -41,6 +45,8 @@ public class SendDVToNeighbor extends Thread {
                 }
             }
             System.out.print("Exit 3!");
+        } catch (SocketException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             MyConsole.log("Cannot from Neighbor(" + neighborIP_.toString() + ")");
             e.printStackTrace();

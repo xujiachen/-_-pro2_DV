@@ -46,6 +46,15 @@ class IP {
                 + Integer.toString(ip3);
     }
 
+    public byte[] getBytes() {
+        byte[] bytes = new byte[4];
+        bytes[0] = (byte)ip0;
+        bytes[1] = (byte)ip1;
+        bytes[2] = (byte)ip2;
+        bytes[3] = (byte)ip3;
+        return bytes;
+    }
+
     public String show() {
         int count = 3;
 
