@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import static java.lang.System.exit;
 
-public class MyConsole {
+class MyConsole {
     static private MyConsole myConsole;
 
     private MyConsole() {}

@@ -5,7 +5,7 @@ import java.net.Socket;
 public class ForwardMessage extends Thread {
     private Message message_;
 
-    public ForwardMessage(Message message) {
+    ForwardMessage(Message message) {
         super();
         message_ = message;
     }

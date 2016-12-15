@@ -12,26 +12,31 @@ import java.util.List;
 import java.util.LinkedList;
 
 class RouteTable {
-    private List<RouteEntry> RouteList;
+    private List<RouteEntry> RouteList = null;
 
     public RouteTable() {
         RouteList = new LinkedList<>();
     }
 
     public RouteTable(JSONObject jsonObj) {
+        if (RouteList == null)
+            RouteList = new LinkedList<>();
+
         try {
             JSONArray jsonArray = jsonObj.getJSONArray("RouteList");
+
             for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
                 RouteList.add(new RouteEntry(jsonObject));
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     public RouteTable(String jsonString) throws JSONException {
-        new RouteTable(new JSONObject(jsonString));
+        this(new JSONObject(jsonString));
     }
 
     public int size() {
@@ -66,7 +71,13 @@ class RouteTable {
     public JSONObject toJSONObject() {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("RouteList", RouteList);
+            JSONArray array = new JSONArray();
+
+            for (RouteEntry e : RouteList) {
+                array.put(e.toJSONObject());
+            }
+            jsonObject.put("RouteList", array.toString());
+
             return jsonObject;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -82,7 +93,7 @@ class RouteTable {
 
     // print in the window
     public void show() {
-        System.out.println("Destination    |Next Hop       |Cost");
+        System.out.println("\nDestination    |Next Hop       |Cost");
         System.out.println("------------------------------------");
         for (RouteEntry entry : RouteList) {
             System.out.println(entry.show());

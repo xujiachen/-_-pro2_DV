@@ -11,23 +11,23 @@ class RouteEntry {
     private IP NextHopIP_ = null;
     private int Cost_ = 1;
 
-    public RouteEntry(IP DestinationIP, IP NextHopIP, int Cost) {
+    RouteEntry(IP DestinationIP, IP NextHopIP, int Cost) {
         DestinationIP_ = DestinationIP;
         NextHopIP_ = NextHopIP;
         Cost_ = Cost;
     }
 
-    public RouteEntry(JSONObject jsonObject) throws JSONException {
+    RouteEntry(JSONObject jsonObject) throws JSONException {
         DestinationIP_ = new IP((String) jsonObject.get("DestinationIP"));
         NextHopIP_ = new IP((String) jsonObject.get("NextHopIP"));
-        Cost_ = Integer.valueOf((String) jsonObject.get("Cost"));
+        Cost_ = (int) jsonObject.get("Cost");
     }
 
-    public IP getDestinationIP() {
+    IP getDestinationIP() {
         return DestinationIP_;
     }
 
-    public IP getNextHopIP() {
+    IP getNextHopIP() {
         return NextHopIP_;
     }
 
@@ -46,19 +46,24 @@ class RouteEntry {
     // to string as the format of json
     @Override
     public String toString() {
+        return toJSONObject().toString();
+    }
+
+    public JSONObject toJSONObject() {
+
         try {
             JSONObject obj = new JSONObject();
             obj.put("DestinationIP", DestinationIP_.toString());
             obj.put("NextHopIP", NextHopIP_.toString());
             obj.put("Cost", Cost_);
-            return obj.toString();
+            return obj;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public String show() {
+    String show() {
         return DestinationIP_.show() + "|" + NextHopIP_.show() + "|" + Cost_;
     }
 }
