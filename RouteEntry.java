@@ -73,4 +73,14 @@ class RouteEntry {
     String show() {
         return DestinationIP_.show() + "|" + NextHopIP_.show() + "|" + Cost_;
     }
+
+    // judge whether two entry are same
+
+    public boolean equals(RouteEntry entry) {
+        if (entry.getCost() == Cost_
+                && entry.getNextHopIP().equals(NextHopIP_)
+                && entry.getDestinationIP().equals(DestinationIP_)) {
+            return true;
+        } else return false;
+    }
 }

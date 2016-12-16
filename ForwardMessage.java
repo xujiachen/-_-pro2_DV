@@ -37,6 +37,9 @@ public class ForwardMessage extends Thread {
                     builder.append(line);
                 }
 
+                if (!socket.isClosed())
+                    socket.close();
+
                 MyConsole.log(nextHop.toString() + " response: " + builder.toString());
             } catch (IOException e) {
                 e.printStackTrace();

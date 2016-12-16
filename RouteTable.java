@@ -56,15 +56,61 @@ class RouteTable {
         return null;
     }
 
+    // delete entry
+
+    public void remove(RouteEntry entry) {
+        for (RouteEntry e : RouteList) {
+            if (e.equals(entry)) {
+                RouteList.remove(e);
+            }
+        }
+    }
+
     // add route(s) from neighbors
 
     public void addRoutesFromNeighbor(RouteTable table, IP NeighborIP) {
         Router.isTableRefresh = true;
+
+        // get the Cost to neighbor
+        int CostToNeighbor = 0;
+        for (RouteEntry e : RouteList) {
+            if (e.getDestinationIP().equals(NeighborIP))
+                CostToNeighbor = e.getCost();
+        }
+
         for (int i = 0; i < table.size(); i++) {
             RouteEntry entry = table.get(i);
-            // TODO add route from neighbor with DV
+
+            // ignore the entries whose destination or next hop is this router
+            if (!(entry.getNextHopIP().equals(Router.getLocalIP()) || entry.getDestinationIP().equals(Router.getLocalIP()))) {
+
+                // find the local entry which has same destination
+                RouteEntry entrySameDestination = findSameDestination(entry);
+
+                // if can not find, add this route
+                if (entrySameDestination == null) {
+                    RouteList.add(new RouteEntry(entry.getDestinationIP(), NeighborIP, entry.getCost() + CostToNeighbor));
+                }
+
+                // else, compare their cost and choose the less one
+                else if (entry.getCost() + CostToNeighbor < entrySameDestination.getCost()) {
+                    remove(entrySameDestination);
+                    RouteList.add(new RouteEntry(entry.getDestinationIP(), NeighborIP, entry.getCost() + CostToNeighbor));
+                }
+            }
         }
+
         Router.isTableRefresh = false;
+    }
+
+    // find the entry whose destination is same as the given entry's
+    // only use in the function addRoutesFromNeighbor
+    private RouteEntry findSameDestination(RouteEntry entry) {
+        for (RouteEntry e : RouteList) {
+            if (entry.getDestinationIP().equals(e.getDestinationIP()))
+                return e;
+        }
+        return null;
     }
 
     public void addRoute(RouteEntry entry) {

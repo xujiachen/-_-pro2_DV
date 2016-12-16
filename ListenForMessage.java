@@ -23,12 +23,14 @@ public class ListenForMessage extends Thread {
 
                 try {
                     MyConsole.log("Receive a message from " + socket.getRemoteSocketAddress().toString());
-                    MyConsole.log("Message:" + builder.toString());
 
                     Message message = new Message(builder.toString());
-
                     if (message.getDestination().equals(Router.getLocalIP())) {
                         MyConsole.log("The message's destination is me!");
+                        MyConsole.log("The message has forwarded by these points:");
+                        for (IP i : message.getPointList()) {
+                            MyConsole.log(i.show());
+                        }
                     } else {
 
                         OutputStream os = socket.getOutputStream();

@@ -45,7 +45,7 @@ public class ListenDVThread extends Thread {
                     if (line != null) {
                         MyConsole.log("Receive a DV route table from " + socket.getRemoteSocketAddress().toString());
                         new RouteTable(line).show();
-                        //Router.getTable().addRoutesFromNeighbor(new RouteTable(line), new IP(socket.getRemoteSocketAddress().toString()));
+                        Router.getTable().addRoutesFromNeighbor(new RouteTable(line), new IP(socket.getRemoteSocketAddress().toString()));
 
                         PrintWriter writer = new PrintWriter(socket.getOutputStream());
                         writer.write(Router.getLocalIP().toString() + " Receive!\r\n");
