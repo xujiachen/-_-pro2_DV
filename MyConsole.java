@@ -58,11 +58,7 @@ class MyConsole {
                     Matcher IPMatcher = IPPattern.matcher(input);
                     if (IPMatcher.find()) {
                         IP destinationIP = new IP(IPMatcher.group(0));
-
-                        Message message = new Message();
-                        message.setSource(Router.getLocalIP());
-                        message.setDestination(destinationIP);
-                        new ForwardMessage(message).start();
+                        Router.sendNewMessage(destinationIP);
                     }
                 }
 

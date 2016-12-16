@@ -56,6 +56,13 @@ class Router {
         isRunning = false;
     }
 
+    static void sendNewMessage(IP DestinationIP) {
+        Message message = new Message();
+        message.setSource(Router.getLocalIP());
+        message.setDestination(DestinationIP);
+        new ForwardMessage(message).start();
+    }
+
     // operation with neighbor
 
     static void addNeighbor(IP neighborIP) {
