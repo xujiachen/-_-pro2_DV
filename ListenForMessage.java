@@ -10,7 +10,7 @@ public class ListenForMessage extends Thread {
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(Router.Port_listenMessage);
-            while (true) {
+            while (Router.isRunning) {
                 Socket socket = serverSocket.accept();
 
                 InputStream is = socket.getInputStream();
@@ -23,6 +23,8 @@ public class ListenForMessage extends Thread {
 
                 try {
                     MyConsole.log("Receive a message from " + socket.getRemoteSocketAddress().toString());
+                    MyConsole.log("Message:" + builder.toString());
+
                     Message message = new Message(builder.toString());
 
                     if (message.getDestination().equals(Router.getLocalIP())) {

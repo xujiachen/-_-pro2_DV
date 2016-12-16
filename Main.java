@@ -13,6 +13,9 @@ class Main {
             // Send DV route table to neighbors
             Router.BeginSendDV();
 
+            // Begin to listen Message
+            Router.BeginListenMessage();
+
             // run as cmd, accept input and do something
             MyConsole.RunAsCMD();
 

@@ -11,6 +11,8 @@ class RouteEntry {
     private IP NextHopIP_ = null;
     private int Cost_ = 1;
 
+    // constructors
+
     RouteEntry(IP DestinationIP, IP NextHopIP, int Cost) {
         DestinationIP_ = DestinationIP;
         NextHopIP_ = NextHopIP;
@@ -22,6 +24,8 @@ class RouteEntry {
         NextHopIP_ = new IP((String) jsonObject.get("NextHopIP"));
         Cost_ = (int) jsonObject.get("Cost");
     }
+
+    // gets and sets
 
     IP getDestinationIP() {
         return DestinationIP_;
@@ -43,7 +47,8 @@ class RouteEntry {
         Cost_ = Cost;
     }
 
-    // to string as the format of json
+    // format as json
+
     @Override
     public String toString() {
         return toJSONObject().toString();
@@ -62,6 +67,8 @@ class RouteEntry {
             return null;
         }
     }
+
+    // print on the window
 
     String show() {
         return DestinationIP_.show() + "|" + NextHopIP_.show() + "|" + Cost_;

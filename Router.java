@@ -27,6 +27,8 @@ public class Router {
     static private RouteTable table;
     static private List<IP> Neighbors;
 
+    // router base operation
+
     static boolean init() {
         try {
             isRunning = true;
@@ -45,6 +47,16 @@ public class Router {
         }
         return true;
     }
+
+    static IP getLocalIP() {
+        return LocalIP;
+    }
+
+    static void close() {
+        isRunning = false;
+    }
+
+    // operation with neighbor
 
     static void addNeighbor(IP neighborIP) {
         for (IP ip : Neighbors) {
@@ -86,15 +98,13 @@ public class Router {
         }
     }
 
+    static void BeginListenMessage() {
+        new ListenForMessage().start();
+    }
+
+    // operation at local table
+
     static RouteTable getTable() {
         return table;
-    }
-
-    static IP getLocalIP() {
-        return LocalIP;
-    }
-
-    static void close() {
-        isRunning = false;
     }
 }

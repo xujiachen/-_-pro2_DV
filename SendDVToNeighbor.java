@@ -16,8 +16,7 @@ public class SendDVToNeighbor extends Thread {
         socket_ = new Socket();
         socket_.setKeepAlive(true);
         socket_.connect(new InetSocketAddress(Inet4Address.getByAddress(neighborIP.getBytes()), Router.Port_ListenDV));
-        MyConsole.log("Connect with the neighbor (" + neighborIP.toString() + ").");
-        MyConsole.log(neighborIP.toString() + "  port:" + socket_.getLocalPort());
+        MyConsole.log("Connect with the neighbor (" + neighborIP.toString() + "  port:" + socket_.getLocalPort() + ").");
         MyConsole.log("Now you can send DV route table to this neighbor.");
     }
 
@@ -27,29 +26,27 @@ public class SendDVToNeighbor extends Thread {
             while (Router.isRunning) {
                 Thread.sleep(5000);
 
-                MyConsole.log("Running");
-
                 if (!socket_.isConnected()) {
                     MyConsole.log("The connection with " + neighborIP_.toString() + " for send DV is closed");
                     break;
                 }
 
                 if (!Router.isTableRefresh) {
-                    MyConsole.log("Sending");
+                    MyConsole.log("Sending a DV to neighbor ("+ neighborIP_.toString() +")");
 
                     PrintWriter writer = new PrintWriter(socket_.getOutputStream());
                     writer.write(Router.getTable().toString());
                     writer.write("\r\n");
                     writer.flush();
-                    socket_.getOutputStream().flush();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(socket_.getInputStream()));
-                    StringBuilder builder = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        builder.append(line);
+                    String line = reader.readLine();
+                    MyConsole.log(neighborIP_.toString() + " response:" + line);
+
+                    if (line == null) {
+                        MyConsole.log(neighborIP_.toString() + " response is null, close the connection with it.");
+                        break;
                     }
-                    MyConsole.log(neighborIP_.toString() + " response:" + builder.toString());
                 }
             }
         } catch (SocketException e) {

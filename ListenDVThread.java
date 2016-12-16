@@ -40,19 +40,20 @@ public class ListenDVThread extends Thread {
                 MyConsole.log("Receive a hello from " + socket.getRemoteSocketAddress().toString());
                 while (Router.isRunning) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    String line;
-                    StringBuilder builder = new StringBuilder();
-                    while ((line = reader.readLine()) != null) {
-                        builder.append(line);
+                    String line = reader.readLine();
+
+                    if (line != null) {
+                        MyConsole.log("Receive a DV route table from " + socket.getRemoteSocketAddress().toString());
+                        new RouteTable(line).show();
+                        //Router.getTable().addRoutesFromNeighbor(new RouteTable(line), new IP(socket.getRemoteSocketAddress().toString()));
+
+                        PrintWriter writer = new PrintWriter(socket.getOutputStream());
+                        writer.write(Router.getLocalIP().toString() + " Receive!\r\n");
+                        writer.flush();
+                    } else {
+                        MyConsole.log("line is null");
+                        break;
                     }
-
-                    MyConsole.log("Receive a DV route table from " + socket.getRemoteSocketAddress().toString());
-                    new RouteTable(builder.toString()).show();
-                    Router.getTable().addRoutesFromNeighbor(new RouteTable(builder.toString()), new IP(socket.getRemoteSocketAddress().toString()));
-
-                    PrintWriter writer = new PrintWriter(socket.getOutputStream());
-                    writer.write(Router.getLocalIP().toString() + " Receive!\r\n");
-                    writer.flush();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

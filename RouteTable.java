@@ -14,6 +14,8 @@ import java.util.LinkedList;
 class RouteTable {
     private List<RouteEntry> RouteList = null;
 
+    // constructors
+
     public RouteTable() {
         RouteList = new LinkedList<>();
     }
@@ -23,7 +25,7 @@ class RouteTable {
             RouteList = new LinkedList<>();
 
         try {
-            JSONArray jsonArray = jsonObj.getJSONArray("RouteList");
+            JSONArray jsonArray = new JSONArray(jsonObj.getString("RouteList"));
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
@@ -38,6 +40,8 @@ class RouteTable {
     public RouteTable(String jsonString) throws JSONException {
         this(new JSONObject(jsonString));
     }
+
+    // gets
 
     public int size() {
         return RouteList.size();
@@ -55,6 +59,8 @@ class RouteTable {
         return null;
     }
 
+    // add route(s) from neighbors
+
     public void addRoutesFromNeighbor(RouteTable table, IP NeighborIP) {
         Router.isTableRefresh = true;
         for (int i = 0; i < table.size(); i++) {
@@ -66,6 +72,13 @@ class RouteTable {
 
     public void addRoute(RouteEntry entry) {
         RouteList.add(entry);
+    }
+
+    // format as String or JsonObject
+
+    @Override
+    public String toString() {
+        return toJSONObject().toString();
     }
 
     public JSONObject toJSONObject() {
@@ -85,13 +98,8 @@ class RouteTable {
         }
     }
 
-    // to a string as the format of json
-    @Override
-    public String toString() {
-        return toJSONObject().toString();
-    }
-
     // print in the window
+
     public void show() {
         System.out.println("\nDestination    |Next Hop       |Cost");
         System.out.println("------------------------------------");

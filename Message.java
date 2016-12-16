@@ -1,3 +1,4 @@
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,13 +10,28 @@ public class Message {
     private IP Destination;
     private List<IP> PointList;
 
+    // constructors
+
     public Message() {
         PointList = new LinkedList<>();
     }
 
     public Message(String jsonString) throws JSONException {
-        JSONObject jsonObject = new JSONObject(jsonString);
+        this(new JSONObject(jsonString));
     }
+
+    public Message(JSONObject jsonObject) throws JSONException {
+        Source = new IP(jsonObject.getString("Source"));
+        Destination = new IP(jsonObject.getString("Destination"));
+
+        PointList = new LinkedList<>();
+        JSONArray array = jsonObject.getJSONArray("PointList");
+        for (int i = 0; i < array.length(); i++) {
+            PointList.add(new IP(array.getString(i)));
+        }
+    }
+
+    // gets and sets
 
     public void setSource(IP ip) {
         Source = ip;
@@ -41,7 +57,8 @@ public class Message {
         PointList.add(ip);
     }
 
-    // return a string as the format of json
+    // format as json
+
     @Override
     public String toString() {
         return toJSONObject().toString();
@@ -60,12 +77,14 @@ public class Message {
         }
     }
 
+    // print in the window
+
     public void show() {
-        MyConsole.log("Source:" + Source.toString());
-        MyConsole.log("Destination:" + Destination.toString());
-        MyConsole.log("PointList:");
+        System.out.println("Source:" + Source.toString());
+        System.out.println("Destination:" + Destination.toString());
+        System.out.println("PointList:");
         for (int i = 0; i < PointList.size(); i++) {
-            MyConsole.log("          "+PointList.get(i).toString());
+            System.out.println("          "+PointList.get(i).toString());
         }
     }
 }

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -18,15 +19,13 @@ public class ForwardMessage extends Thread {
             message_.addPoint(Router.getLocalIP());
             try {
                 Socket socket = new Socket();
-                socket.bind(new InetSocketAddress(Router.getLocalIP().toString(), Router.Port_listenMessage));
-                socket.connect(new InetSocketAddress(nextHop.toString(), Router.Port_listenMessage));
+
+                socket.connect(new InetSocketAddress(Inet4Address.getByAddress(nextHop.getBytes()), Router.Port_listenMessage));
 
                 OutputStream os = socket.getOutputStream();
                 PrintWriter writer = new PrintWriter(os);
                 writer.write(message_.toString());
                 writer.flush();
-                writer.close();
-                socket.shutdownOutput();
 
                 MyConsole.log("Send message to " + nextHop.toString());
 
@@ -42,6 +41,8 @@ public class ForwardMessage extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            MyConsole.log("Cannot reach the destination:"+message_.getDestination());
         }
     }
 }

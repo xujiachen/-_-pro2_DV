@@ -48,7 +48,6 @@ class MyConsole {
         }
 
         String input;
-        System.out.print(Router.getLocalIP().toString() + "> ");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             while (Router.isRunning && (input = reader.readLine()) != null) {
@@ -63,7 +62,6 @@ class MyConsole {
                         Message message = new Message();
                         message.setSource(Router.getLocalIP());
                         message.setDestination(destinationIP);
-                        message.addPoint(Router.getLocalIP());
                         new ForwardMessage(message).start();
                     }
                 }
@@ -71,6 +69,14 @@ class MyConsole {
                 // show the route table
                 else if (Pattern.matches("show route table *$", input)) {
                     Router.getTable().show();
+                }
+
+                // show the neighbors had added
+                else if (Pattern.matches("show neighbors *$", input)) {
+                    System.out.println("Neighbors:");
+                    for (IP i : Router.getNeighbors()) {
+                        System.out.println(i.show());
+                    }
                 }
 
                 // show the help
@@ -100,6 +106,6 @@ class MyConsole {
     }
 
     static void log(String str) {
-        System.out.println("\n"+Router.getLocalIP().toString() + "> " + str + "\n");
+        System.out.println(str);
     }
 }
