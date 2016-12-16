@@ -25,13 +25,10 @@ class RouteTable {
             RouteList = new LinkedList<>();
 
         try {
-            JSONArray jsonArray = new JSONArray(jsonObj.getString("RouteList"));
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
-                RouteList.add(new RouteEntry(jsonObject));
+            JSONArray array = jsonObj.getJSONArray("RouteList");
+            for (int i = 0; i < array.length(); i++) {
+                RouteList.add(new RouteEntry(new JSONObject(array.getString(i))));
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -83,15 +80,9 @@ class RouteTable {
 
     public JSONObject toJSONObject() {
         try {
-            JSONObject jsonObject = new JSONObject();
-            JSONArray array = new JSONArray();
-
-            for (RouteEntry e : RouteList) {
-                array.put(e.toJSONObject());
-            }
-            jsonObject.put("RouteList", array.toString());
-
-            return jsonObject;
+            JSONObject obj = new JSONObject();
+            obj.put("RouteList", RouteList);
+            return obj;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
