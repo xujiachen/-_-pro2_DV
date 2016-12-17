@@ -73,12 +73,14 @@ class RouteTable {
 
         // get the Cost to neighbor
         int CostToNeighbor = 0;
+        IP nextHopToNeighbor = null;
         for (RouteEntry e : RouteList) {
-            if (e.getDestinationIP().equals(NeighborIP))
+            if (e.getDestinationIP().equals(NeighborIP)) {
                 CostToNeighbor = e.getCost();
+                nextHopToNeighbor = e.getNextHopIP();
+            }
         }
 
-        // can not reach this neighbor
         // can not reach this neighbor
         if (CostToNeighbor == 0)
             return;
@@ -94,13 +96,13 @@ class RouteTable {
 
                 // if can not find, add this route
                 if (entrySameDestination == null) {
-                    RouteList.add(new RouteEntry(entry.getDestinationIP(), NeighborIP, entry.getCost() + CostToNeighbor));
+                    RouteList.add(new RouteEntry(entry.getDestinationIP(), nextHopToNeighbor, entry.getCost() + CostToNeighbor));
                 }
 
                 // else, compare their cost and choose the less one
                 else if (entry.getCost() + CostToNeighbor < entrySameDestination.getCost()) {
                     remove(entrySameDestination);
-                    RouteList.add(new RouteEntry(entry.getDestinationIP(), NeighborIP, entry.getCost() + CostToNeighbor));
+                    RouteList.add(new RouteEntry(entry.getDestinationIP(), nextHopToNeighbor, entry.getCost() + CostToNeighbor));
                 }
             }
         }
