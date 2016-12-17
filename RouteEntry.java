@@ -22,7 +22,7 @@ class RouteEntry {
     RouteEntry(JSONObject jsonObject) throws JSONException {
         DestinationIP_ = new IP((String) jsonObject.get("DestinationIP"));
         NextHopIP_ = new IP((String) jsonObject.get("NextHopIP"));
-        Cost_ = (int) jsonObject.get("Cost");
+        Cost_ = jsonObject.getInt("Cost");
     }
 
     // gets and sets

@@ -37,7 +37,7 @@ public class ListenDVThread extends Thread {
         @Override
         public void run() {
             try {
-                MyConsole.log("Receive a hello from " + socket.getRemoteSocketAddress().toString());
+                MyConsole.log("Receive a DV connection with " + socket.getRemoteSocketAddress().toString());
                 while (Router.isRunning) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     String line = reader.readLine();
