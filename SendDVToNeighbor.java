@@ -14,13 +14,13 @@ public class SendDVToNeighbor extends Thread {
     public SendDVToNeighbor(IP neighborIP) throws IOException {
         neighborIP_ = neighborIP;
         socket_ = new Socket();
-        socket_.setKeepAlive(true);
     }
 
     @Override
     public void run() {
         try {
             socket_.connect(new InetSocketAddress(Inet4Address.getByAddress(neighborIP_.getBytes()), Router.Port_ListenDV));
+            socket_.setKeepAlive(true);
             MyConsole.log("Connect with the neighbor (" + neighborIP_.toString() + "  port:" + socket_.getLocalPort() + ").");
             MyConsole.log("Now you can send DV route table to this neighbor.");
 
