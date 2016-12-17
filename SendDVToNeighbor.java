@@ -15,14 +15,15 @@ public class SendDVToNeighbor extends Thread {
         neighborIP_ = neighborIP;
         socket_ = new Socket();
         socket_.setKeepAlive(true);
-        socket_.connect(new InetSocketAddress(Inet4Address.getByAddress(neighborIP.getBytes()), Router.Port_ListenDV));
-        MyConsole.log("Connect with the neighbor (" + neighborIP.toString() + "  port:" + socket_.getLocalPort() + ").");
-        MyConsole.log("Now you can send DV route table to this neighbor.");
     }
 
     @Override
     public void run() {
         try {
+            socket_.connect(new InetSocketAddress(Inet4Address.getByAddress(neighborIP_.getBytes()), Router.Port_ListenDV));
+            MyConsole.log("Connect with the neighbor (" + neighborIP_.toString() + "  port:" + socket_.getLocalPort() + ").");
+            MyConsole.log("Now you can send DV route table to this neighbor.");
+
             while (Router.isRunning) {
                 Thread.sleep(5000);
 

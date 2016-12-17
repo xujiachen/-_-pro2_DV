@@ -9,14 +9,15 @@ import static java.lang.System.exit;
 class MyConsole {
     static private MyConsole myConsole;
 
-    private MyConsole() {}
+    private MyConsole() {
+    }
 
     static void RunForAddNeighbor() throws IOException {
         if (myConsole == null) {
             myConsole = new MyConsole();
         }
 
-        System.out.println("Please input the IP of this host's Neighbors. The IP is requested as \"A.B.C.D\". Finish your input with a \"end\".");
+        System.out.println("Please input the IP and the cost of this host's Neighbors. The IP is requested as \"A.B.C.D E\". Finish your input with a \"end\".");
         System.out.print(Router.getLocalIP().toString() + "> ");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -25,15 +26,33 @@ class MyConsole {
         while (!(input = reader.readLine()).equals("end")) {
 
             // check whether the input is true
-            if (!Pattern.matches("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3} *$", input)) {
+            if (!Pattern.matches("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3} [0-9]* *$", input)
+                    && !Pattern.matches(" *$", input)) {
                 log("Your input is wrong, please check your input.");
-                log("\"" + input + "\" is not a IP, please input as \"A.B.C.D\".");
-            } else {
-                Pattern pattern = Pattern.compile("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}");
+                log("\"" + input + "\" is not a IP and cost, please input as \"A.B.C.D E\".");
+            }
+
+            // add the neighbor
+            else {
+                Pattern pattern = Pattern.compile("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3} [0-9]*$");
                 Matcher matcher = pattern.matcher(input);
 
-                if (matcher.find() && input.equals(matcher.group(0)))
-                    Router.addNeighbor(new IP(matcher.group(0)));
+                String str = null;
+                if (matcher.find())
+                    str = matcher.group(0);
+
+                Pattern patternIP = Pattern.compile("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}");
+                Matcher matcherIP = patternIP.matcher(input);
+
+                String strIP = null;
+                if (matcherIP.find())
+                    strIP = matcherIP.group(0);
+
+                if (str != null && strIP != null) {
+                    String strCost = str.substring(strIP.length()+1);
+                    Router.addNeighbor(new IP(strIP), Integer.valueOf(strCost));
+                }
+
             }
 
             System.out.print(Router.getLocalIP().toString() + "> ");
@@ -79,8 +98,9 @@ class MyConsole {
                 else if (Pattern.matches("help *$", input)) {
                     System.out.println("send to A.B.C.D   ---- Send a message to the IP A.B.C.D");
                     System.out.println("show route table  ---- Show the route table now");
-                    System.out.println("help              ---- show the order can be used");
-                    System.out.println("exit              ---- exit the program");
+                    System.out.println("show neighbors    ---- Show neighbors of this router");
+                    System.out.println("help              ---- Show the order can be used");
+                    System.out.println("exit              ---- Exit the program");
                 }
 
                 // exit the route

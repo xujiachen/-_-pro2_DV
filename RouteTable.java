@@ -78,6 +78,11 @@ class RouteTable {
                 CostToNeighbor = e.getCost();
         }
 
+        // can not reach this neighbor
+        // can not reach this neighbor
+        if (CostToNeighbor == 0)
+            return;
+
         for (int i = 0; i < table.size(); i++) {
             RouteEntry entry = table.get(i);
 

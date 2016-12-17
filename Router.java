@@ -65,7 +65,7 @@ class Router {
 
     // operation with neighbor
 
-    static void addNeighbor(IP neighborIP) {
+    static void addNeighbor(IP neighborIP, int cost) {
         for (IP ip : Neighbors) {
             if (ip.equals(neighborIP))
                 return;
@@ -82,7 +82,7 @@ class Router {
 
             // add route
             Neighbors.add(neighborIP);
-            table.addRoute(new RouteEntry(neighborIP, neighborIP, 1));
+            table.addRoute(new RouteEntry(neighborIP, neighborIP, cost));
 
         } catch (IOException e) {
             e.printStackTrace();
